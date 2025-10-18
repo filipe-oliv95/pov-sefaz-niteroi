@@ -1,0 +1,31 @@
+curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json" -d '{
+  "name": "kcnn_ecidades_cadastro_v1",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "192.168.122.220",
+    "database.port": "5432",
+    "database.user": "speedlayer",
+    "database.password": "speedlayer123",
+    "database.dbname": "poc_ecidade_markway",
+    "database.server.name": "ecidades-cadastro.v1", 
+    "table.include.list": "cadastro.iptubase,cadastro.lote,cadastro.iptuender,cadastro.loteloc,cadastro.iptuconstr,cadastro.iptucalv,cadastro.carlote,cadastro.carvalor",
+    "slot.name": "slot_ecidades_cadastro_v1",
+    "publication.autocreate.mode": "filtered",
+    "publication.name": "pub_ecidades_cadastro_v1",
+    "database.include.schema.changes": "false",
+    "tombstones.on.delete": "false",
+    "decimal.handling.mode": "double",
+    "time.precision.mode": "connect",
+    "max.batch.size": "2048",
+    "poll.interval.ms": "1000",
+    "snapshot.mode": "initial",
+    "topic.prefix": "ecidades", 
+    "topic.creation.default.replication.factor": "1",
+    "topic.creation.default.partitions": "4",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false"
+  }
+}'
