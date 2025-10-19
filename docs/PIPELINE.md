@@ -7,7 +7,7 @@ Este documento descreve o fluxo completo de ingestão, transformação e exposi�
 ---
 
 
-## 0. Visão Geral da Arquitetura
+## 1. Visão Geral da Arquitetura
 
 Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre as fontes (E-Cidades e SIGEO), as camadas do Lakehouse (Bronze → Silver → Gold) e a exposição final via Superset.
 
@@ -19,7 +19,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ### 🖼️ Diagrama de Arquitetura
 
-![Arquitetura PoV SEFAZ Niterói](docs/architecture/arquitetura_pov_sefaz_niteroi.svg)
+![Arquitetura PoV SEFAZ Niterói](architecture/arquitetura_pov_sefaz_niteroi.svg)
 
 *(Imagem salva em `docs/architecture/arquitetura_pov_sefaz_niteroi.svg`)*
 
@@ -30,11 +30,11 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 > - **Visualização**: Superset
 > - **Governança**: Ranger, Atlas
 
-## 1. Ingestão na Camada Bronze (Raw)
+## 2. Ingestão na Camada Bronze (Raw)
 
 > ✅ **Pré-requisito**: Todas as tabelas bronze são criadas previamente via Trino com os scripts em [`/sql/bronze/`](sql/bronze/).
 
-### 1.1. Fontes Batch – SIGEO
+### 2.1. Fontes Batch – SIGEO
 
 #### a) **Lotes (ArcGIS)**
 - **Fonte**: API REST do SIGEO (Feature Service)
@@ -53,7 +53,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ---
 
-### 1.2. Fonte Near Real-Time – E-Cidades (CDC)
+### 2.2. Fonte Near Real-Time – E-Cidades (CDC)
 
 - **Fonte**: PostgreSQL (`poc_ecidade_markway`) com 8 tabelas:  
   `iptubase`, `lote`, `iptuender`, `loteloc`, `carlote`, `carvalor`, `iptuconstr`, `iptucalv`
@@ -70,26 +70,26 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ---
 
-## 2. Transformação na Camada Silver (Curated)
+## 3. Transformação na Camada Silver (Curated)
 
 > ✅ **Pré-requisito**: Todas as tabelas silver são criadas previamente via Trino com os scripts em [`/sql/silver/`](sql/silver/).
 
-### 2.1. Limite de Bairros
+### 3.1. Limite de Bairros
 - **Script**: [`/sql/silver/create_slv_limite_de_bairros.sql`](sql/silver/create_slv_limite_de_bairros.sql)  
 - Cria tabela `iceberg.sefaz_slv.slv_limite_de_bairros` a partir da bronze
 
-### 2.2. Cadastro Imobiliário (E-Cidades unificado)
+### 3.2. Cadastro Imobiliário (E-Cidades unificado)
 - **Script**: [`/sql/silver/create_slv_cadastro_imobiliario.sql`](sql/silver/create_slv_cadastro_imobiliario.sql)  
 - Agrega as 8 tabelas bronze em uma única view lógica:  
   `iceberg.sefaz_slv.slv_cadastro_imobiliario`
 
-### 2.3. Lotes Enriquecidos (SIGEO + Geometria)
+### 3.3. Lotes Enriquecidos (SIGEO + Geometria)
 - **Script DDL**: [`/sql/silver/create_slv_lotes_enriquecido.sql`](sql/silver/create_slv_lotes_enriquecido.sql)  
 - **Job de Carga**: [`jobs/python/geo/lotes/job_geo_load_lotes_silver.py`](jobs/python/geo/lotes/job_geo_load_lotes_silver.py) (PySpark)  
   - Enriquece lotes com metadados espaciais, limpeza de coordenadas, etc.  
   - Saída: `iceberg.sefaz_slv.slv_lotes_enriquecido`
 
-### 2.4. View Unificada (Geo + Tributário)
+### 3.4. View Unificada (Geo + Tributário)
 - **Script**: [`/sql/silver/create_slv_cadastro_lotes_unificado.sql`](sql/silver/create_slv_cadastro_lotes_unificado.sql)  
 - Junta `slv_cadastro_imobiliario` + `slv_lotes_enriquecido` pela chave `tx_insct`  
 - Resultado: `iceberg.sefaz_slv.slv_cadastro_lotes_unificado`
@@ -98,11 +98,11 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ---
 
-## 3. Camada Gold (Business Value)
+## 4. Camada Gold (Business Value)
 
 > Views analíticas prontas para consumo por dashboards e APIs.
 
-### 3.1. Potencial de Correção de IPTU
+### 4.1. Potencial de Correção de IPTU
 - **Script**: [`/sql/gold/create_gld_potencial_correcao.sql`](sql/gold/create_gld_potencial_correcao.sql)  
 - Calcula:
   - IPTU por m²
@@ -110,7 +110,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
   - Ranking de oportunidades de revisão
 - View: `iceberg.sefaz_gld.gld_potencial_correcao`
 
-### 3.2. Índice de Inconsistência Cadastral (IIC)
+### 4.2. Índice de Inconsistência Cadastral (IIC)
 - **Script**: [`/sql/gold/gld_inconsistencia_cadastral.sql`](sql/gold/gld_inconsistencia_cadastral.sql)  
 - Identifica:
   - Registros com área construída nula/inconsistente
@@ -124,7 +124,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ---
 
-## 4. Visualização – Superset
+## 5. Visualização – Superset
 
 > Dashboards alinhados aos **KPIs e OKRs da PoV**.
 
@@ -152,18 +152,6 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ---
 
-## 🔌 5. APIs (Próxima Etapa – Dia 4/5)
-
-Embora não executadas neste momento, as APIs planejadas são:
-
-- `GET /v1/ecidades/imovel/{matricula}`
-- `GET /v1/sigeo/lotes?bbox=...`
-
-> ✅ **Governança**: OAuth2, rate-limit (100 req/min), auditoria ativa  
-> 🎯 **OKR B (Prontidão para Integração Ágil)**: **KR3 e KR4**
-
----
-
 ## 6. Alinhamento com Critérios de Sucesso da PoV
 
 | Critério | Status | Evidência |
@@ -182,7 +170,7 @@ Embora não executadas neste momento, as APIs planejadas são:
 
 ---
 
-## Conclusão
+## 7. Conclusão
 
 Este pipeline demonstra, de forma **reprodutível e escalável**, a capacidade da TDP de:
 
@@ -190,5 +178,3 @@ Este pipeline demonstra, de forma **reprodutível e escalável**, a capacidade d
 2. **Enriquecer dados geoespaciais com tributários** usando `tx_insct` como chave;
 3. **Gerar valor de negócio** por meio de KPIs claros (receita potencial, qualidade cadastral);
 4. **Preparar a base para APIs seguras e governadas**.
-
-A PoV cumpre seu objetivo: **validar o conceito de integração ágil, segura e orientada a valor**, com entrega em **5 dias úteis** e alinhamento total aos **OKRs da SEFAZ-Niterói**.

@@ -2,7 +2,7 @@
 
 Antes de executar o pipeline, certifique-se de que o ambiente TDP está devidamente configurado.
 
-## Serviços Necessários (devem estar **ativos** no TDP)
+## Serviços Necessários (devem estar **ativos** no TDP via Ambari)
 
 - HDFS
 - YARN
