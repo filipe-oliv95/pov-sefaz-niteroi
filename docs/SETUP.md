@@ -21,7 +21,7 @@ Antes de executar o pipeline, certifique-se de que o ambiente TDP está devidame
 ## Configurações Específicas
 
 ### 1. **PostgreSQL (Origem dos Dados)**
-- Local: [`conf/postgres/postgres_setup.md`](conf/postgres/postgres_setup.md)
+- Local: [`conf/postgres/postgres_setup.md`](/conf/postgres/postgres_setup.md)
 - Ações:
   - Criar usuário com permissões adequadas
   - Configurar WAL (`wal_level = logical`)
@@ -29,19 +29,19 @@ Antes de executar o pipeline, certifique-se de que o ambiente TDP está devidame
   - Criar database, schemas e tabelas de origem
 
 ### 2. **Kafka Connect**
-- Local: [`conf/kafka_connect/kcnn_config.md`](conf/kcnn/kcnn_config.md)
+- Local: [`conf/kafka_connect/kcnn_config.md`](/conf/kcnn/kcnn_config.md)
 - Ações:
   - Configurar e iniciar o Kafka Connect no TDP
   - Validar conectividade com Kafka e Postgres
 
 ### 3. **Spark (Geoespacial)**
-- Local: [`conf/spark/spark_config.md`](conf/spark/spark_config.md)
+- Local: [`conf/spark/spark_config.md`](/conf/spark/spark_config.md)
 - Ações:
   - Adicionar JARs geoespaciais (ex: Sedona, GeoMesa)
   - Configurar Spark para uso com dados espaciais
 
 ### 4. **Superset**
-- Local: [`conf/superset/superset_config.md`](conf/superset/superset_config.md)
+- Local: [`conf/superset/superset_config.md`](/conf/superset/superset_config.md)
 - Ações:
   - Conectar ao Trino como fonte de dados
   - Configurar Mapbox API Key para mapas
