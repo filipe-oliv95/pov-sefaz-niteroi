@@ -72,7 +72,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ## 3. Transformação na Camada Silver (Curated)
 
-> ✅ **Pré-requisito**: Todas as tabelas silver são criadas previamente via Trino com os scripts em [`/sql/silver/`](sql/silver/).
+> ✅ **Pré-requisito**: Todas as tabelas silver são criadas previamente via Trino com os scripts em [`/sql/silver/`](/sql/silver/).
 
 ### 3.1. Limite de Bairros
 - **Script**: [`/sql/silver/create_slv_limite_de_bairros.sql`](/sql/silver/create_slv_limite_de_bairros.sql)  
