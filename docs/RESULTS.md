@@ -55,5 +55,5 @@ Este documento consolida os resultados obtidos durante a execução da Prova de 
 - Implementar devolutiva ao SIGEO com dados enriquecidos (matrículas, IPTU)
 
 > 📎 **Documentos de apoio**:
-> - [Arquitetura](/docs/architecture/arquitetura_pov_sefaz_niteroi.png)
+> - [Arquitetura](/docs/architecture/arquitetura_pov_sefaz_niteroi.svg)
 > - [Definição oficial da PoV](/docs/architecture/POV-DefinicaoArquitetura-Sefaz-Niteroi-v2.pdf)

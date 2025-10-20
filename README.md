@@ -1,6 +1,6 @@
 # PoV Secretaria de Fazenda de Niterói
 
-Este repositório contém a implementação da prova de conceito (PoV) de integração de dados geoespaciais e cadastros imobiliários na plataforma de dados **TDP (Tecnisys Data Platform)**.
+Este repositório contém a implementação da prova de valor (PoV) de integração de dados geoespaciais e cadastros imobiliários na plataforma de dados **TDP (Tecnisys Data Platform)**.
 
 ## Estrutura do Projeto
 
