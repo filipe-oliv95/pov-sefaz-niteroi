@@ -1,6 +1,6 @@
-# PoC Secretaria de Fazenda de Niterói
+# PoV Secretaria de Fazenda de Niterói
 
-Este repositório contém a implementação da prova de conceito (PoC) de integração de dados geoespaciais e cadastros imobiliários na plataforma de dados **TDP (Tecnisys Data Platform)**.
+Este repositório contém a implementação da prova de conceito (PoV) de integração de dados geoespaciais e cadastros imobiliários na plataforma de dados **TDP (Tecnisys Data Platform)**.
 
 ## Estrutura do Projeto
 
@@ -15,7 +15,7 @@ Este repositório contém a implementação da prova de conceito (PoC) de integr
 ## Próximos passos
 
 1. **[Configuração Inicial da Plataforma](docs/SETUP.md)** – Verifique pré-requisitos e configure os serviços.
-2. **[Execução do Pipeline End-to-End](docs/PIPELINE.md)** – Passo a passo para rodar a PoC.
+2. **[Execução do Pipeline End-to-End](docs/PIPELINE.md)** – Passo a passo para rodar a PoV.
 3. **[Resultados da PoV](docs/RESULTS.md)** – KPIs atingidos, evidências e lições aprendidas.
 
 > 💡 Este projeto depende de uma instância do **TDP com os seguintes serviços ativos**:  
