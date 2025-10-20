@@ -19,7 +19,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ### 🖼️ Diagrama de Arquitetura
 
-![Arquitetura PoV SEFAZ Niterói](architecture/arquitetura_pov_sefaz_niteroi.svg)
+![Arquitetura PoV SEFAZ Niterói](/docs/architecture/arquitetura_pov_sefaz_niteroi.svg)
 
 *(Imagem salva em `docs/architecture/arquitetura_pov_sefaz_niteroi.svg`)*
 
@@ -32,23 +32,23 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ## 2. Ingestão na Camada Bronze (Raw)
 
-> ✅ **Pré-requisito**: Todas as tabelas bronze são criadas previamente via Trino com os scripts em [`/sql/bronze/`](sql/bronze/).
+> ✅ **Pré-requisito**: Todas as tabelas bronze são criadas previamente via Trino com os scripts em [`/sql/bronze/`](/sql/bronze/).
 
 ### 2.1. Fontes Batch – SIGEO
 
 #### a) **Lotes (ArcGIS)**
 - **Fonte**: API REST do SIGEO (Feature Service)
-- **Job**: [`jobs/python/geo/lotes/job_geo_pull_lotes_arcgis.py`](jobs/python/geo/lotes/job_geo_pull_lotes_arcgis.py)  
+- **Job**: [`jobs/python/geo/lotes/job_geo_pull_lotes_arcgis.py`](/jobs/python/geo/lotes/job_geo_pull_lotes_arcgis.py)  
   - Extrai lotes em formato GeoJSON
-- **Transformação**: [`jobs/python/geo/lotes/job_geo_transform_lotes.py`](jobs/python/geo/lotes/job_geo_transform_lotes.py)  
+- **Transformação**: [`jobs/python/geo/lotes/job_geo_transform_lotes.py`](/jobs/python/geo/lotes/job_geo_transform_lotes.py)  
   - Converte geometria e normaliza atributos
-- **Carga Bronze**: [`jobs/python/geo/lotes/job_geo_load_lotes_bronze.py`](jobs/python/geo/lotes/job_geo_load_lotes_bronze.py)  
+- **Carga Bronze**: [`jobs/python/geo/lotes/job_geo_load_lotes_bronze.py`](/jobs/python/geo/lotes/job_geo_load_lotes_bronze.py)  
   - Tabela destino: `iceberg.sefaz_brz.brz_lotes_arcgis`
 
 #### b) **Limite de Bairros**
 - **Fonte**: Download manual do portal SIGEO (`limite_de_bairros.geojson`)
-- **Transformação**: [`jobs/python/geo/limite_de_bairros/job_geo_transform_ldb.py`](jobs/python/geo/limite_de_bairros/job_geo_transform_ldb.py)  
-- **Carga Bronze**: [`jobs/python/geo/limite_de_bairros/job_geo_load_ldb_bronze.py`](jobs/python/geo/limite_de_bairros/job_geo_load_ldb_bronze.py)  
+- **Transformação**: [`jobs/python/geo/limite_de_bairros/job_geo_transform_ldb.py`](/jobs/python/geo/limite_de_bairros/job_geo_transform_ldb.py)  
+- **Carga Bronze**: [`jobs/python/geo/limite_de_bairros/job_geo_load_ldb_bronze.py`](/jobs/python/geo/limite_de_bairros/job_geo_load_ldb_bronze.py)  
   - Tabela destino: `iceberg.sefaz_brz.brz_limite_de_bairros`
 
 ---
@@ -58,11 +58,11 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 - **Fonte**: PostgreSQL (`poc_ecidade_markway`) com 8 tabelas:  
   `iptubase`, `lote`, `iptuender`, `loteloc`, `carlote`, `carvalor`, `iptuconstr`, `iptucalv`
 - **Captura de Mudanças**:  
-  - Conector Debezium configurado via [`conf/debezium/kcnn_ecidades_cadastro_v1.json`](conf/debezium/kcnn_ecidades_cadastro_v1.json)  
+  - Conector Debezium configurado via [`conf/debezium/kcnn_ecidades_cadastro_v1.json`](/conf/debezium/kcnn_ecidades_cadastro_v1.json)  
   - Publica eventos em tópicos Kafka (ex: `ecidades.iptubase`)
 - **Ingestão no Lake**:  
-  - Job NiFi: [`jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.xml`](jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.xml)  
-  *(Imagem completa do fluxo salva em [`jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.PNG`](jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.PNG)*
+  - Job NiFi: [`jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.xml`](/jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.xml)  
+  *(Imagem completa do fluxo salva em [`jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.PNG`](/jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.PNG)*
   - Valida e persiste mensagens em 8 tabelas bronze no Iceberg:  
     `iceberg.sefaz_brz.brz_iptubase`, `brz_lote`, ..., `brz_iptucalv`
 
@@ -75,22 +75,22 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 > ✅ **Pré-requisito**: Todas as tabelas silver são criadas previamente via Trino com os scripts em [`/sql/silver/`](sql/silver/).
 
 ### 3.1. Limite de Bairros
-- **Script**: [`/sql/silver/create_slv_limite_de_bairros.sql`](sql/silver/create_slv_limite_de_bairros.sql)  
+- **Script**: [`/sql/silver/create_slv_limite_de_bairros.sql`](/sql/silver/create_slv_limite_de_bairros.sql)  
 - Cria tabela `iceberg.sefaz_slv.slv_limite_de_bairros` a partir da bronze
 
 ### 3.2. Cadastro Imobiliário (E-Cidades unificado)
-- **Script**: [`/sql/silver/create_slv_cadastro_imobiliario.sql`](sql/silver/create_slv_cadastro_imobiliario.sql)  
+- **Script**: [`/sql/silver/create_slv_cadastro_imobiliario.sql`](/sql/silver/create_slv_cadastro_imobiliario.sql)  
 - Agrega as 8 tabelas bronze em uma única view lógica:  
   `iceberg.sefaz_slv.slv_cadastro_imobiliario`
 
 ### 3.3. Lotes Enriquecidos (SIGEO + Geometria)
-- **Script DDL**: [`/sql/silver/create_slv_lotes_enriquecido.sql`](sql/silver/create_slv_lotes_enriquecido.sql)  
-- **Job de Carga**: [`jobs/python/geo/lotes/job_geo_load_lotes_silver.py`](jobs/python/geo/lotes/job_geo_load_lotes_silver.py) (PySpark)  
+- **Script DDL**: [`/sql/silver/create_slv_lotes_enriquecido.sql`](/sql/silver/create_slv_lotes_enriquecido.sql)  
+- **Job de Carga**: [`jobs/python/geo/lotes/job_geo_load_lotes_silver.py`](/jobs/python/geo/lotes/job_geo_load_lotes_silver.py) (PySpark)  
   - Enriquece lotes com metadados espaciais, limpeza de coordenadas, etc.  
   - Saída: `iceberg.sefaz_slv.slv_lotes_enriquecido`
 
 ### 3.4. View Unificada (Geo + Tributário)
-- **Script**: [`/sql/silver/create_slv_cadastro_lotes_unificado.sql`](sql/silver/create_slv_cadastro_lotes_unificado.sql)  
+- **Script**: [`/sql/silver/create_slv_cadastro_lotes_unificado.sql`](/sql/silver/create_slv_cadastro_lotes_unificado.sql)  
 - Junta `slv_cadastro_imobiliario` + `slv_lotes_enriquecido` pela chave `tx_insct`  
 - Resultado: `iceberg.sefaz_slv.slv_cadastro_lotes_unificado`
 
@@ -103,7 +103,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 > Views analíticas prontas para consumo por dashboards e APIs.
 
 ### 4.1. Potencial de Correção de IPTU
-- **Script**: [`/sql/gold/create_gld_potencial_correcao.sql`](sql/gold/create_gld_potencial_correcao.sql)  
+- **Script**: [`/sql/gold/create_gld_potencial_correcao.sql`](/sql/gold/create_gld_potencial_correcao.sql)  
 - Calcula:
   - IPTU por m²
   - Comparação com média do loteamento
@@ -111,7 +111,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 - View: `iceberg.sefaz_gld.gld_potencial_correcao`
 
 ### 4.2. Índice de Inconsistência Cadastral (IIC)
-- **Script**: [`/sql/gold/gld_inconsistencia_cadastral.sql`](sql/gold/gld_inconsistencia_cadastral.sql)  
+- **Script**: [`/sql/gold/gld_inconsistencia_cadastral.sql`](/sql/gold/gld_inconsistencia_cadastral.sql)  
 - Identifica:
   - Registros com área construída nula/inconsistente
   - Lotes sem geolocalização
@@ -147,7 +147,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 > **OKR A (Valor Financeiro e Operacional)**: **KR2 atendido**
 
-> ![Dashboard Potencial Correção](src/superset/d1_potencial_correcao.PNG)  
+> ![Dashboard Potencial Correção](/src/superset/d1_potencial_correcao.PNG)  
 <!-- > ![Dashboard Inconsistência](src/superset/d2_inconsistencia_cadastral.PNG) -->
 
 ---
@@ -157,7 +157,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 | Critério | Status | Evidência |
 |--------|--------|----------|
 | **KR1**: Ingestão automatizada < 24h (amostra) | ✅ | Jobs Python + NiFi rodando |
-| **KR2**: Dashboard near-real-time com IPTU e ranking | ✅ | Superset com [`gld_potencial_correcao`](sql/gold/create_gld_potencial_correcao.sql) |
+| **KR2**: Dashboard near-real-time com IPTU e ranking | ✅ | Superset com [`gld_potencial_correcao`](/sql/gold/create_gld_potencial_correcao.sql) |
 | **KR5/KR6**: RBAC + Auditoria | ⚠️ Parcial | Governança via TDP (a ser validada no APIM) |
 | **Latência E2E (P95 ≤ 5s)** | 📏 Em medição | Validação via logs Kafka → Iceberg |
 | **Freshness do Dashboard ≤ 10s** | ✅ | Configuração de auto-refresh no Superset |
