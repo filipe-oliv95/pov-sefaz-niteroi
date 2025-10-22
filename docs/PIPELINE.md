@@ -28,7 +28,8 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 > ✅ **Pré-requisitos**: 
 - Crie todos os diretórios necessários no HDFS: [`/infra/hdfs/create_directories.sh`](/infra/hdfs/create_directories.sh)
-- Crie o schema e todas as tabelas bronze via Trino com os scripts: [`/sql/bronze/`](/sql/bronze/).
+- Crie todos os schemas Iceberg: [`/sql/schemas/create_iceberg_schemas.sql`](/sql/schemas/create_iceberg_schemas.sql).
+- Crie todas as tabelas bronze via Trino com os scripts: [`/sql/bronze/`](/sql/bronze/).
 
 ### 2.1. Fontes Batch – SIGEO
 
