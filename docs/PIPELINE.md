@@ -22,13 +22,13 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 > - **Armazenamento**: Iceberg (HDFS)
 > - **Processamento**: PySpark, Trino (SQL)
 > - **Visualização**: Superset
-> - **Governança**: Ranger, Atlas
+> - **Governança**: Ranger
 
 ## 2. Ingestão na Camada Bronze (Raw)
 
 > ✅ **Pré-requisitos**: 
 - Crie todos os diretórios necessários no HDFS: [`/infra/hdfs/create_directories.sh`](/infra/hdfs/create_directories.sh)
-- Crie todas as tabelas bronze via Trino com os scripts: [`/sql/bronze/`](/sql/bronze/).
+- Crie o schema e todas as tabelas bronze via Trino com os scripts: [`/sql/bronze/`](/sql/bronze/).
 
 ### 2.1. Fontes Batch – SIGEO
 

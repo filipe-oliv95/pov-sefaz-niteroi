@@ -713,11 +713,11 @@
                     <properties>
                         <entry>
                             <key>hive-metastore-uri</key>
-                            <value>thrift://sandbox-tdp23.tecnisys.com.br:9083</value>
+                            <value>thrift://utility-node.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:9083</value>
                         </entry>
                         <entry>
                             <key>warehouse-location</key>
-                            <value>hdfs://sandbox-tdp23.tecnisys.com.br:8020/warehouse/tablespace/iceberg/sefaz/bronze</value>
+                            <value>hdfs://master-node.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:8020/warehouse/tablespace/iceberg/sefaz/bronze</value>
                         </entry>
                         <entry>
                             <key>hadoop-config-resources</key>
@@ -2268,7 +2268,7 @@
                         <properties>
                             <entry>
 <key>bootstrap.servers</key>
-<value>sandbox-tdp23.tecnisys.com.br:6667</value>
+<value>Worker-Node01.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:6667, Worker-Node02.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:6667</value>
                             </entry>
                             <entry>
 <key>topic</key>

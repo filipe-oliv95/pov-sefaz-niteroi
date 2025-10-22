@@ -13,7 +13,7 @@ Este documento consolida os resultados obtidos durante a execução da Prova de 
 | **Objetivo B** – Prontidão para integração ágil | KR3: 2 endpoints v1 no APIM | ⚠️ Parcial | Backend implementado; APIM em configuração |
 | | KR4: OpenAPI completo | ⚠️ Parcial | Especificação gerada; aguarda importação no APIM |
 | **Objetivo C** – Segurança e governança | KR5: RBAC aplicado | ✅ | Políticas no Ranger para `sefaz_*` schemas |
-| | KR6: Auditoria em tempo real | ✅ | Logs do Atlas e Ranger habilitados |
+| | KR6: Auditoria em tempo real | ✅ | Logs do Ranger habilitados |
 
 ---
 

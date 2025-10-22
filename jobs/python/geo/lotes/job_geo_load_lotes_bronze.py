@@ -23,10 +23,10 @@ spark = SparkSession.builder \
     .appName("Ingest Lotes JSON to Iceberg Bronze") \
     .master("local[*]") \
     .enableHiveSupport() \
-    .config("spark.hadoop.fs.defaultFS", "hdfs://sandbox-tdp23.tecnisys.com.br:8020") \
+    .config("spark.hadoop.fs.defaultFS", "hdfs://master-node.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:8020") \
     .config("spark.sql.catalog.iceberg", "org.apache.iceberg.spark.SparkCatalog") \
     .config("spark.sql.catalog.iceberg.type", "hive") \
-    .config("spark.sql.catalog.iceberg.uri", "thrift://sandbox-tdp23.tecnisys.com.br:9083") \
+    .config("spark.sql.catalog.iceberg.uri", "thrift://utility-node.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:9083") \
     .config("spark.sql.catalog.iceberg.warehouse", "hdfs:///warehouse/tablespace/iceberg") \
     .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
     .config("spark.sql.iceberg.handle-timestamp-without-timezone", "true") \
