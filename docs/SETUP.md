@@ -8,9 +8,7 @@ Antes de executar o pipeline, certifique-se de que o ambiente TDP está devidame
 - YARN
 - MapReduce
 - Hive
-- HBase
 - Zookeeper
-- Atlas
 - Kafka
 - Ranger
 - NiFi

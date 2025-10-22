@@ -39,6 +39,7 @@ A criação e configuração de uma Mapbox API Key é necessária para integrar 
 3. Insira a Key no Ambari em `Superset → Advanced → Advanced Superset → MAPBOX_API_KEY`.
 
 ## Uso de JavaScript nos gráficos
+Chamado: https://suporte.tecnisys.com.br/glpi/plugins/formcreator/front/issue.form.php?id=11002
 
 1. Acesse o arquivo `/usr/tdp/current/superset/lib/python3.9/site-packages/superset/config.py`.
 2. Edite e adicione as seguintes configurações:

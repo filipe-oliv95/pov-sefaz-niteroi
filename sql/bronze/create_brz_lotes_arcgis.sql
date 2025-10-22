@@ -10,7 +10,10 @@ CREATE TABLE iceberg.sefaz_brz.brz_lotes_arcgis (
    j34_totcon double,
    j34_zona bigint,
    j34_quamat integer,
-   j34_areapreservada double
+   j34_areapreservada double,
+    __op VARCHAR,
+    __ts_ms BIGINT,
+    __ts_iso VARCHAR
 )
 WITH (
    format = 'PARQUET'

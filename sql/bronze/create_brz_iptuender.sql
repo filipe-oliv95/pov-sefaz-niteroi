@@ -1,3 +1,6 @@
+-- PRIMARY_KEYS: j43_matric
+-- j43_matric = J01_matric da tabela iptubase
+
 -- iptuender
 CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_iptuender (
     j43_matric INTEGER,
@@ -11,5 +14,8 @@ CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_iptuender (
     j43_cep CHAR(8),
     j43_cxpost INTEGER,
     j43_codigo INTEGER,
-    j43_codbairro INTEGER
+    j43_codbairro INTEGER,
+    __op VARCHAR,
+    __ts_ms BIGINT,
+    __ts_iso VARCHAR
 ) WITH (format = 'PARQUET');

@@ -1,3 +1,8 @@
+-- PRIMARY_KEYS: j34_idbql
+-- j34_idbql = j01_idbql da tabela iptubase
+-- j34_idbql = j35_caract da tabela carlote
+-- j34_idbql = j06_codigo da tabela loteloc
+
 -- lote
 CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_lote (
     j34_idbql INTEGER,
@@ -10,5 +15,8 @@ CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_lote (
     j34_totcon DOUBLE,
     j34_zona BIGINT,
     j34_quamat INTEGER,
-    j34_areapreservada DOUBLE
+    j34_areapreservada DOUBLE,
+    __op VARCHAR,
+    __ts_ms BIGINT,
+    __ts_iso VARCHAR
 ) WITH (format = 'PARQUET');

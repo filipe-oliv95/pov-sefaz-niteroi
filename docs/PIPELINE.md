@@ -11,13 +11,7 @@ Este documento descreve o fluxo completo de ingestão, transformação e exposi�
 
 Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre as fontes (E-Cidades e SIGEO), as camadas do Lakehouse (Bronze → Silver → Gold) e a exposição final via Superset.
 
-> ✅ **Arquitetura end-to-end**:
-> - Ingestão near-real-time (CDC + API)
-> - Processamento com PySpark e SQL
-> - Modelagem analítica com Trino
-> - Visualização com Superset
-
-### 🖼️ Diagrama de Arquitetura
+### Diagrama de Arquitetura
 
 ![Arquitetura PoV SEFAZ Niterói](/docs/architecture/arquitetura_pov_sefaz_niteroi.svg)
 
@@ -25,7 +19,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 > 🔗 **Tecnologias envolvidas**:
 > - **Ingestão**: Debezium, Kafka, NiFi, PySpark
-> - **Armazenamento**: Iceberg (HDFS/S3)
+> - **Armazenamento**: Iceberg (HDFS)
 > - **Processamento**: PySpark, Trino (SQL)
 > - **Visualização**: Superset
 > - **Governança**: Ranger, Atlas
@@ -137,6 +131,8 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 - **Fonte**: `gld_potencial_correcao`
 - **Freshness**: ≤ 10s (badge no dashboard)
 
+> ![Dashboard Potencial Correção](/src/superset/d1_potencial_correcao.PNG)  
+
 ### Dashboard 2: **Inconsistência Cadastral**
 - **Objetivo**: diagnosticar qualidade dos dados
 - **Conteúdo**:
@@ -145,9 +141,6 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
   - Evolução da limpeza ao longo do tempo
 - **Fonte**: `gld_inconsistencia_cadastral`
 
-> **OKR A (Valor Financeiro e Operacional)**: **KR2 atendido**
-
-> ![Dashboard Potencial Correção](/src/superset/d1_potencial_correcao.PNG)  
-<!-- > ![Dashboard Inconsistência](src/superset/d2_inconsistencia_cadastral.PNG) -->
+> ![Dashboard Inconsistência Cadastral](/src/superset/d2_inconsistencia_cadastral.PNG)
 
 ---

@@ -1,3 +1,6 @@
+-- PRIMARY_KEYS: j39_matric, j39_idcons
+-- j39_matric = J01_matric da tabela iptubase
+
 -- iptuconstr
 CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_iptuconstr (
     j39_matric INTEGER,
@@ -18,5 +21,8 @@ CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_iptuconstr (
     j39_obs VARCHAR,
     j39_areajirau INTEGER,
     j39_areamezanino INTEGER,
-    j39_areajiraudeposito INTEGER
+    j39_areajiraudeposito INTEGER,
+    __op VARCHAR,
+    __ts_ms BIGINT,
+    __ts_iso VARCHAR
 ) WITH (format = 'PARQUET');

@@ -1,6 +1,6 @@
 # Resultados da Prova de Valor – SEFAZ Niterói
 
-Este documento consolida os resultados obtidos durante a execução da Prova de Valor (PoV), com base nos critérios definidos no documento **POV-DefinicaoArquitetura-Sefaz-Niteroi-v2.pdf**.
+Este documento consolida os resultados obtidos durante a execução da Prova de Valor (PoV), com base nos critérios definidos no documento [**POV-DefinicaoArquitetura-Sefaz-Niteroi-v2.pdf**](/docs/architecture/POV-DefinicaoArquitetura-Sefaz-Niteroi-v2.pdf)
 
 ---
 

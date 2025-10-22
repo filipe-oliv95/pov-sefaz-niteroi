@@ -1,3 +1,4 @@
+-- PRIMARY_KEYS: j71_codigo
 -- carvalor
 CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_carvalor (
     j71_codigo INTEGER,
@@ -8,5 +9,8 @@ CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_carvalor (
     j71_ini DOUBLE,
     j71_fim DOUBLE,
     j71_quantini DOUBLE,
-    j71_quantfim DOUBLE
+    j71_quantfim DOUBLE,
+    __op VARCHAR,
+    __ts_ms BIGINT,
+    __ts_iso VARCHAR
 ) WITH (format = 'PARQUET');

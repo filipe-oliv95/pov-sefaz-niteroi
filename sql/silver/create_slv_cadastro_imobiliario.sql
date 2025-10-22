@@ -1,98 +1,177 @@
+-- Etapa 1: Configurar sessão
+SET SESSION distinct_aggregations_strategy = 'single_step';
 
--- Criação da view que unifica as tabelas do ecidades bronze
-
-CREATE or REPLACE VIEW sefaz_slv.slv_cadastro_imobiliario AS
+-- Etapa 2: Criar a view
+CREATE OR REPLACE VIEW iceberg.sefaz_niteroi_silver.vw_cadastro_imobiliario AS
 WITH
-  cte_cadastro_imobiliario AS (
-   SELECT
-     j01_numcgm codigo_proprietario
-   , concat(concat(SUBSTRING(j34_setor, 2, 3), SUBSTRING(j34_quadra, 2, 3)), j34_lote) tx_insct
-   , j01_matric tx_matric
-   , j01_idbql idbql
-   , j34_area area_lote
-   , j34_totcon total_construido_lote
-   FROM
-     (iceberg.sefaz_brz.brz_iptubase
-   INNER JOIN iceberg.sefaz_brz.brz_lote ON (j34_idbql = j01_idbql))
-   WHERE (j01_baixa IS NULL)
-) 
-, cte_endereco AS (
-   SELECT
-     j43_matric
-   , j43_numimo tx_nroport
-   , j43_comple tx_complem
-   FROM
-     iceberg.sefaz_brz.brz_iptuender
-) 
-, cte_localizacao AS (
-   SELECT
-     j06_idbql idbql
-   , j06_lote tx_loteloc
-   , j06_quadraloc tx_quadraloc
-   FROM
-     iceberg.sefaz_brz.brz_loteloc
-) 
-, cte_tipo_lote AS (
-   SELECT
-     cl.j35_idbql idbql
-   , ARRAY_JOIN(ARRAY_AGG(cv.j71_descr ORDER BY cv.j71_descr ASC), ', ') tx_tipo_lo
-   FROM
-     (iceberg.sefaz_brz.brz_carlote cl
-   LEFT JOIN (
-      SELECT
-        j71_caract
-      , j71_descr
-      FROM
-        (
-         SELECT
-           j71_caract
-         , j71_descr
-         , ROW_NUMBER() OVER (PARTITION BY j71_caract ORDER BY j71_anousu DESC NULLS LAST) rn
-         FROM
-           iceberg.sefaz_brz.brz_carvalor
-      ) 
-      WHERE (rn = 1)
-   )  cv ON (cv.j71_caract = cl.j35_caract))
-   GROUP BY cl.j35_idbql
-) 
-, cte_construcoes AS (
-   SELECT
-     MAX(j39_idcons) id_construcao
-   , j39_matric
-   , j39_area area_construida
-   FROM
-     iceberg.sefaz_brz.brz_iptuconstr
-   GROUP BY j39_matric, j39_area
-) 
-, cte_valor_iptu AS (
-   SELECT
-     j21_matric
-   , j21_anousu ano_iptu
-   , SUM(j21_valor) valor_iptu
-   FROM
-     iceberg.sefaz_brz.brz_iptucalv
-   WHERE ((j21_anousu = 2025) AND (j21_codhis = 1))
-   GROUP BY j21_matric, j21_anousu
-) 
+iptubase_latest AS (
+  SELECT b.*
+  FROM iceberg.sefaz_niteroi_bronze.iptubase b
+  JOIN (
+    SELECT j01_matric, MAX(__ts_ms) AS max_ts
+    FROM iceberg.sefaz_niteroi_bronze.iptubase
+    GROUP BY j01_matric
+  ) l ON b.j01_matric = l.j01_matric AND b.__ts_ms = l.max_ts
+  WHERE COALESCE(b.__op, '') <> 'DELETE'
+),
+lote_latest AS (
+  SELECT b.*
+  FROM iceberg.sefaz_niteroi_bronze.lote b
+  JOIN (
+    SELECT j34_idbql, MAX(__ts_ms) AS max_ts
+    FROM iceberg.sefaz_niteroi_bronze.lote
+    GROUP BY j34_idbql
+  ) l ON b.j34_idbql = l.j34_idbql AND b.__ts_ms = l.max_ts
+  WHERE COALESCE(b.__op, '') <> 'DELETE'
+),
+loteloc_latest AS (
+  SELECT b.*
+  FROM iceberg.sefaz_niteroi_bronze.loteloc b
+  JOIN (
+    SELECT j06_idbql, MAX(__ts_ms) AS max_ts
+    FROM iceberg.sefaz_niteroi_bronze.loteloc
+    GROUP BY j06_idbql
+  ) l ON b.j06_idbql = l.j06_idbql AND b.__ts_ms = l.max_ts
+  WHERE COALESCE(b.__op, '') <> 'DELETE'
+),
+iptuender_latest AS (
+  SELECT b.*
+  FROM iceberg.sefaz_niteroi_bronze.iptuender b
+  JOIN (
+    SELECT j43_matric, MAX(__ts_ms) AS max_ts
+    FROM iceberg.sefaz_niteroi_bronze.iptuender
+    GROUP BY j43_matric
+  ) l ON b.j43_matric = l.j43_matric AND b.__ts_ms = l.max_ts
+  WHERE COALESCE(b.__op, '') <> 'DELETE'
+),
+iptuconstr_latest AS (
+  SELECT
+    j39_matric,
+    j39_idcons,
+    j39_area,
+    __ts_ms
+  FROM (
+    SELECT
+      c.*,
+      ROW_NUMBER() OVER (PARTITION BY j39_matric, j39_idcons ORDER BY __ts_ms DESC) AS __rn
+    FROM iceberg.sefaz_niteroi_bronze.iptuconstr c
+    WHERE COALESCE(c.__op, '') <> 'DELETE'
+  )
+  WHERE __rn = 1
+),
+iptuconstr_one_per_matric AS (
+  SELECT
+    j39_matric,
+    j39_idcons,
+    j39_area,
+    __ts_ms
+  FROM (
+    SELECT
+      c.*,
+      ROW_NUMBER() OVER (PARTITION BY j39_matric ORDER BY __ts_ms DESC, j39_idcons DESC) AS __rn
+    FROM iptuconstr_latest c
+  )
+  WHERE __rn = 1
+),
+carlote_latest AS (
+  SELECT
+    j35_idbql,
+    j35_caract,
+    __ts_ms
+  FROM (
+    SELECT
+      cl.*,
+      ROW_NUMBER() OVER (PARTITION BY j35_idbql, j35_caract ORDER BY __ts_ms DESC) AS __rn
+    FROM iceberg.sefaz_niteroi_bronze.carlote cl
+    WHERE COALESCE(cl.__op, '') <> 'DELETE'
+  )
+  WHERE __rn = 1
+),
+carvalor_latest_per_caract AS (
+  SELECT
+    j71_caract,
+    j71_descr,
+    j71_anousu,
+    __ts_ms
+  FROM (
+    SELECT
+      cv.*,
+      ROW_NUMBER() OVER (PARTITION BY j71_caract ORDER BY j71_anousu DESC NULLS LAST, __ts_ms DESC) AS __rn
+    FROM iceberg.sefaz_niteroi_bronze.carvalor cv
+    WHERE COALESCE(cv.__op, '') <> 'DELETE'
+  )
+  WHERE __rn = 1
+),
+iptucalv_2025 AS (
+  SELECT
+    j21_matric,
+    j21_anousu,
+    SUM(j21_valor) AS valor_iptu
+  FROM iceberg.sefaz_niteroi_bronze.iptucalv
+  WHERE COALESCE(__op, '') <> 'DELETE'
+    AND j21_anousu = 2025
+    AND j21_codhis = 1
+  GROUP BY j21_matric, j21_anousu
+),
+cte_cadastro_imobiliario AS (
+  SELECT
+    ib.j01_numcgm AS codigo_proprietario,
+    SUBSTRING(lt.j34_setor, 2, 3) || SUBSTRING(lt.j34_quadra, 2, 3) || lt.j34_lote AS tx_insct,
+    ib.j01_matric AS tx_matric,
+    ib.j01_idbql AS idbql,
+    lt.j34_area AS area_lote,
+    lt.j34_totcon AS total_construido_lote
+  FROM iptubase_latest ib
+  JOIN lote_latest lt ON lt.j34_idbql = ib.j01_idbql
+  WHERE ib.j01_baixa IS NULL
+),
+cte_endereco AS (
+  SELECT
+    j43_matric,
+    j43_numimo AS tx_nroport,
+    j43_comple AS tx_complem
+  FROM iptuender_latest
+),
+cte_localizacao AS (
+  SELECT
+    j06_idbql AS idbql,
+    j06_lote AS tx_loteloc,
+    j06_quadraloc AS tx_quadraloc
+  FROM loteloc_latest
+),
+cte_tipo_lote AS (
+  SELECT
+    cl.j35_idbql AS idbql,
+    ARRAY_JOIN(ARRAY_AGG(cv.j71_descr ORDER BY cv.j71_descr), ', ') AS tx_tipo_lo
+  FROM carlote_latest cl
+  LEFT JOIN carvalor_latest_per_caract cv ON cv.j71_caract = cl.j35_caract
+  GROUP BY cl.j35_idbql
+),
+cte_construcoes AS (
+  SELECT
+    j39_idcons AS id_construcao,
+    j39_matric,
+    j39_area AS area_construida
+  FROM iptuconstr_one_per_matric
+)
 SELECT
-  cci.tx_insct
-, en.tx_nroport
-, en.tx_complem
-, tl.tx_tipo_lo
-, loc.tx_loteloc
-, loc.tx_quadraloc
-, cci.area_lote tx_arealote
-, cci.codigo_proprietario
-, cci.tx_matric
-, cci.total_construido_lote
-, cc.id_construcao
-, cc.area_construida
-, cv.ano_iptu
-, cv.valor_iptu
-FROM
-  (((((cte_cadastro_imobiliario cci
-LEFT JOIN cte_endereco en ON (en.j43_matric = cci.tx_matric))
-LEFT JOIN cte_localizacao loc ON (loc.idbql = cci.idbql))
-LEFT JOIN cte_tipo_lote tl ON (tl.idbql = cci.idbql))
-LEFT JOIN cte_construcoes cc ON (cc.j39_matric = cci.tx_matric))
-LEFT JOIN cte_valor_iptu cv ON (cv.j21_matric = cci.tx_matric));
+  cci.tx_insct,
+  en.tx_nroport,
+  en.tx_complem,
+  tl.tx_tipo_lo,
+  loc.tx_loteloc,
+  loc.tx_quadraloc,
+  cci.area_lote AS tx_arealote,
+  cci.codigo_proprietario,
+  cci.tx_matric,
+  cci.total_construido_lote,
+  cc.id_construcao,
+  cc.area_construida,
+  cv.j21_anousu AS ano_iptu,
+  cv.valor_iptu
+FROM cte_cadastro_imobiliario cci
+LEFT JOIN cte_endereco en ON en.j43_matric = cci.tx_matric
+LEFT JOIN cte_localizacao loc ON loc.idbql = cci.idbql
+LEFT JOIN cte_tipo_lote tl ON tl.idbql = cci.idbql
+LEFT JOIN cte_construcoes cc ON cc.j39_matric = cci.tx_matric
+LEFT JOIN iptucalv_2025 cv ON cv.j21_matric = cci.tx_matric;

@@ -14,6 +14,7 @@ WITH base AS (
         valor_iptu / NULLIF(area_construida, 0) AS fator_iptu_m2
     FROM sefaz_slv.slv_cadastro_lotes_unificado
     WHERE area_construida IS NOT NULL
+    AND valor_iptu IS NOT NULL
 ),
 fator_max AS (
     SELECT
@@ -34,7 +35,7 @@ resumo AS (
         b.valor_iptu,
         b.fator_iptu_m2,
         f.max_fator_iptu_m2,
-        (b.area_construida * f.max_fator_iptu_m2 - b.valor_iptu) AS potencial_discrepancia,
+        GREATEST(b.area_construida * f.max_fator_iptu_m2 - b.valor_iptu, 0) AS potencial_discrepancia,
         CASE 
             WHEN b.valor_iptu < b.area_construida * f.max_fator_iptu_m2 THEN TRUE
             ELSE FALSE
