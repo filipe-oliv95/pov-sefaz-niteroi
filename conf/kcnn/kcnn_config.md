@@ -3,7 +3,7 @@
 1. **Editar o arquivo de configurações** `/etc/kafka/2.3/0/connect-distributed.properties`:
 
    ```bash
-   bootstrap.servers=sandbox-tdp23.tecnisys.com.br:6667 
+   bootstrap.servers=Worker-Node01.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:6667,Worker-Node02.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:6667
    rest.port=8087
    rest.host.name=0.0.0.0
    plugin.path=/usr/tdp/2.3/kafka/connect-plugins

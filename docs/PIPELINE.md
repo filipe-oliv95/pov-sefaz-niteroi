@@ -26,7 +26,9 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ## 2. Ingestão na Camada Bronze (Raw)
 
-> ✅ **Pré-requisito**: Todas as tabelas bronze são criadas previamente via Trino com os scripts em [`/sql/bronze/`](/sql/bronze/).
+> ✅ **Pré-requisitos**: 
+- Crie todos os diretórios necessários no HDFS: [`/infra/hdfs/create_directories.sh`](/infra/hdfs/create_directories.sh)
+- Crie todas as tabelas bronze via Trino com os scripts: [`/sql/bronze/`](/sql/bronze/).
 
 ### 2.1. Fontes Batch – SIGEO
 

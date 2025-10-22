@@ -3,10 +3,10 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
-    "database.hostname": "192.168.122.220",
+    "database.hostname": "20.197.179.168",
     "database.port": "5432",
     "database.user": "speedlayer",
-    "database.password": "speedlayer123",
+    "database.password": "q77BKvgCy59f17OdC5aws",
     "database.dbname": "poc_ecidade_markway",
     "database.server.name": "ecidades-cadastro.v1", 
     "table.include.list": "cadastro.iptubase,cadastro.lote,cadastro.iptuender,cadastro.loteloc,cadastro.iptuconstr,cadastro.iptucalv,cadastro.carlote,cadastro.carvalor",
