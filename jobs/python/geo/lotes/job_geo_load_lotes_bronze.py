@@ -12,7 +12,6 @@ Saída: tabela Iceberg
 
 Comando:
     spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2 job_geo_load_lotes_bronze.py
-
 """
 
 from pyspark.sql import SparkSession

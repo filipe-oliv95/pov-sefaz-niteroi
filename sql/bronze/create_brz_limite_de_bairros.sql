@@ -4,9 +4,6 @@ CREATE TABLE iceberg.sefaz_brz.brz_limite_de_bairros (
    border varchar,
    shape_area double,
    shape_length double,
-   tx_legislacao varchar,
-    __op VARCHAR,
-    __ts_ms BIGINT,
-    __ts_iso VARCHAR
+   tx_legislacao varchar
 )
 WITH (format = 'PARQUET');

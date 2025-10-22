@@ -9,7 +9,6 @@ Saída: tabela Iceberg
 
 Comando:
     spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2 job_geo_load_ldb_bronze.py
-
 """
 
 from pyspark.sql import SparkSession
@@ -31,7 +30,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Caminho do arquivo JSONL
-json_path = "hdfs:///warehouse/tablespace/iceberg/projeto_sefaz_niteroi/raw/limite_de_bairros.json"
+json_path = "hdfs:///warehouse/tablespace/iceberg/sefaz/raw/limite_de_bairros.json"
 
 # Nome da tabela Iceberg (já existente)
 tabela_nome = "iceberg.sefaz_brz.brz_limite_de_bairros"
