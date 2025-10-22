@@ -13,10 +13,10 @@ Entrada: iceberg.sefaz_brz.brz_lotes_arcgis - tabela de lotes no iceberg bronze
 Saída: iceberg.sefaz_slv.slv_lotes_enriquecido - insert dos dados limpos e com flags na camada silver do iceberg
 
 Comando:
-    python job_geo_load_lotes_silver.py
+    spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2 job_geo_load_lotes_silver.py
 
 Dependências:
-    pip install pyspark apache-sedona==1.5.1
+    pip install apache-sedona==1.5.1
 """
 
 from pyspark.sql import SparkSession
