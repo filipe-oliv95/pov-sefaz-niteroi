@@ -5,10 +5,13 @@ Descrição: Script pyspark para carregar dados de lotes em formato JSONL para a
 Pré-requisito: 
     - tabela Iceberg já criada
     - lotes.json inserido no HDFS com permissões adequadas
+    - execução via venv com pyspark instalado
+        python3 -m venv venv
+        source venv/bin/activate
 Saída: tabela Iceberg
 
 Comando:
-    python job_geo_load_lotes_bronze.py
+    spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2 job_geo_load_lotes_bronze.py
 
 Dependências:
     pip install pyspark

@@ -8,7 +8,7 @@ Pré-requisito:
 Saída: tabela Iceberg
 
 Comando:
-    python job_geo_load_ldb_bronze.py
+    spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2 job_geo_load_ldb_bronze.py
 
 Dependências:
     pip install pyspark

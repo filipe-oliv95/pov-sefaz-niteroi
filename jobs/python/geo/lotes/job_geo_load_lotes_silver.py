@@ -2,6 +2,13 @@
 Código spark que pega a tabela iceberg.sefaz_brz.brz_lotes_arcgis, integra com iceberg.sefaz_slv.slv_limite_de_bairros e gera a tabela enriquecida iceberg.sefaz_slv.slv_lotes_enriquecido
 silver_lotes.py
 Python 3.9+
+Descrição: Script pyspark para para carregar dados limpos e normalizados na tabela Silver do Iceberg
+Pré-requisito: 
+    - tabela Iceberg bronze e silver já criadas
+    - lotes.json inserido no HDFS com permissões adequadas
+    - execução via venv com pyspark instalado
+        python3 -m venv venv
+        source venv/bin/activate
 Entrada: iceberg.sefaz_brz.brz_lotes_arcgis - tabela de lotes no iceberg bronze
 Saída: iceberg.sefaz_slv.slv_lotes_enriquecido - insert dos dados limpos e com flags na camada silver do iceberg
 
