@@ -32,11 +32,12 @@ Antes de executar o pipeline, certifique-se de que o ambiente TDP está devidame
   - Configurar e iniciar o Kafka Connect no TDP
   - Validar conectividade com Kafka e Postgres
 
-### 3. **Spark (Geoespacial)**
+### 3. **Spark**
 - Local: [`conf/spark/spark_config.md`](/conf/spark/spark_config.md)
 - Ações:
   - Adicionar JARs geoespaciais (ex: Sedona, GeoMesa)
   - Configurar Spark para uso com dados espaciais
+  - Configurar ambiente virtual antes de rodar os Scripts Spark
 
 ### 4. **Superset**
 - Local: [`conf/superset/superset_config.md`](/conf/superset/superset_config.md)
@@ -45,5 +46,11 @@ Antes de executar o pipeline, certifique-se de que o ambiente TDP está devidame
   - Configurar Mapbox API Key para mapas
   - Ajustar timeout de queries
   - Habilitar visualizações geográficas (ex: deck.gl)
+
+### 5. **Trino**
+- Local: [`conf/trino/trino_config.md`](/conf/trino/trino_config.md)
+- Ações:
+  - Ligar o conector com o Iceberg
+  - Exportar variáveis JAVA
 
 > **Importante**: Sem essas configurações, o pipeline **não funcionará corretamente**.

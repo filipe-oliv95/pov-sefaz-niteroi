@@ -19,4 +19,4 @@ Este repositório contém a implementação da prova de valor (PoV) de integraç
 3. **[Resultados da PoV](docs/RESULTS.md)** – KPIs atingidos, evidências e lições aprendidas.
 
 > 💡 Este projeto depende de uma instância do **TDP com os seguintes serviços ativos**:  
-> HDFS, YARN, MapReduce, Hive, HBase, Zookeeper, Kafka, Ranger, NiFi, Spark 3, Superset, Trino.
+> HDFS, YARN, MapReduce, Hive, Zookeeper, Kafka, Ranger, NiFi, Spark 3, Superset, Trino.

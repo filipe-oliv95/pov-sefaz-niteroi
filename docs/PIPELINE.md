@@ -30,6 +30,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 - Crie todos os diretórios necessários no HDFS: [`/infra/hdfs/create_directories.sh`](/infra/hdfs/create_directories.sh)
 - Crie todos os schemas Iceberg: [`/sql/schemas/create_iceberg_schemas.sql`](/sql/schemas/create_iceberg_schemas.sql).
 - Crie todas as tabelas bronze via Trino com os scripts: [`/sql/bronze/`](/sql/bronze/).
+- Kafka Connect ligado na porta 8087.
 
 ### 2.1. Fontes Batch – SIGEO
 
@@ -39,12 +40,14 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
   - Extrai lotes em formato GeoJSON
 - **Transformação**: [`jobs/python/geo/lotes/job_geo_transform_lotes.py`](/jobs/python/geo/lotes/job_geo_transform_lotes.py)  
   - Converte geometria e normaliza atributos
+- **Arquivo JSON no HDFS**: Inserir o arquivo processado no diretório: `hdfs:///warehouse/tablespace/iceberg/sefaz/raw/lotes.json`
 - **Carga Bronze**: [`jobs/python/geo/lotes/job_geo_load_lotes_bronze.py`](/jobs/python/geo/lotes/job_geo_load_lotes_bronze.py)  
   - Tabela destino: `iceberg.sefaz_brz.brz_lotes_arcgis`
 
 #### b) **Limite de Bairros**
 - **Fonte**: Download manual do portal SIGEO (`limite_de_bairros.geojson`)
 - **Transformação**: [`jobs/python/geo/limite_de_bairros/job_geo_transform_ldb.py`](/jobs/python/geo/limite_de_bairros/job_geo_transform_ldb.py)  
+- **Arquivo JSON no HDFS**: Inserir o arquivo processado no diretório: `hdfs:///warehouse/tablespace/iceberg/sefaz/raw/limite_de_bairros.json`
 - **Carga Bronze**: [`jobs/python/geo/limite_de_bairros/job_geo_load_ldb_bronze.py`](/jobs/python/geo/limite_de_bairros/job_geo_load_ldb_bronze.py)  
   - Tabela destino: `iceberg.sefaz_brz.brz_limite_de_bairros`
 
