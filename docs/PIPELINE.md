@@ -85,7 +85,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
 
 ### 3.3. Lotes Enriquecidos (SIGEO + Geometria)
 - **Script DDL**: [`/sql/silver/create_slv_lotes_enriquecido.sql`](/sql/silver/create_slv_lotes_enriquecido.sql)  
-- **Job de Carga**: [`jobs/python/geo/lotes/job_geo_load_lotes_silver.py`](/jobs/python/geo/lotes/job_geo_load_lotes_silver.py) (PySpark)  
+- **Job de Carga**: [`jobs/python/geo/lotes/job_geo_load_lotes_silver.py`](/jobs/python/geo/lotes/job_geo_load_lotes_silver.py) (PySpark)
   - Enriquece lotes com metadados espaciais, limpeza de coordenadas, etc.  
   - Saída: `iceberg.sefaz_slv.slv_lotes_enriquecido`
 

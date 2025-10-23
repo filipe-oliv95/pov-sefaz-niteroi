@@ -2,44 +2,44 @@
 SET SESSION distinct_aggregations_strategy = 'single_step';
 
 -- Etapa 2: Criar a view
-CREATE OR REPLACE VIEW iceberg.sefaz_niteroi_silver.vw_cadastro_imobiliario AS
+CREATE OR REPLACE VIEW iceberg.sefaz_slv.slv_cadastro_imobiliario AS
 WITH
 iptubase_latest AS (
   SELECT b.*
-  FROM iceberg.sefaz_niteroi_bronze.iptubase b
+  FROM iceberg.sefaz_brz.brz_iptubase b
   JOIN (
     SELECT j01_matric, MAX(__ts_ms) AS max_ts
-    FROM iceberg.sefaz_niteroi_bronze.iptubase
+    FROM iceberg.sefaz_brz.brz_iptubase
     GROUP BY j01_matric
   ) l ON b.j01_matric = l.j01_matric AND b.__ts_ms = l.max_ts
   WHERE COALESCE(b.__op, '') <> 'DELETE'
 ),
 lote_latest AS (
   SELECT b.*
-  FROM iceberg.sefaz_niteroi_bronze.lote b
+  FROM iceberg.sefaz_brz.brz_lote b
   JOIN (
     SELECT j34_idbql, MAX(__ts_ms) AS max_ts
-    FROM iceberg.sefaz_niteroi_bronze.lote
+    FROM iceberg.sefaz_brz.brz_lote
     GROUP BY j34_idbql
   ) l ON b.j34_idbql = l.j34_idbql AND b.__ts_ms = l.max_ts
   WHERE COALESCE(b.__op, '') <> 'DELETE'
 ),
 loteloc_latest AS (
   SELECT b.*
-  FROM iceberg.sefaz_niteroi_bronze.loteloc b
+  FROM iceberg.sefaz_brz.brz_loteloc b
   JOIN (
     SELECT j06_idbql, MAX(__ts_ms) AS max_ts
-    FROM iceberg.sefaz_niteroi_bronze.loteloc
+    FROM iceberg.sefaz_brz.brz_loteloc
     GROUP BY j06_idbql
   ) l ON b.j06_idbql = l.j06_idbql AND b.__ts_ms = l.max_ts
   WHERE COALESCE(b.__op, '') <> 'DELETE'
 ),
 iptuender_latest AS (
   SELECT b.*
-  FROM iceberg.sefaz_niteroi_bronze.iptuender b
+  FROM iceberg.sefaz_brz.brz_iptuender b
   JOIN (
     SELECT j43_matric, MAX(__ts_ms) AS max_ts
-    FROM iceberg.sefaz_niteroi_bronze.iptuender
+    FROM iceberg.sefaz_brz.brz_iptuender
     GROUP BY j43_matric
   ) l ON b.j43_matric = l.j43_matric AND b.__ts_ms = l.max_ts
   WHERE COALESCE(b.__op, '') <> 'DELETE'
@@ -54,7 +54,7 @@ iptuconstr_latest AS (
     SELECT
       c.*,
       ROW_NUMBER() OVER (PARTITION BY j39_matric, j39_idcons ORDER BY __ts_ms DESC) AS __rn
-    FROM iceberg.sefaz_niteroi_bronze.iptuconstr c
+    FROM iceberg.sefaz_brz.brz_iptuconstr c
     WHERE COALESCE(c.__op, '') <> 'DELETE'
   )
   WHERE __rn = 1
@@ -82,7 +82,7 @@ carlote_latest AS (
     SELECT
       cl.*,
       ROW_NUMBER() OVER (PARTITION BY j35_idbql, j35_caract ORDER BY __ts_ms DESC) AS __rn
-    FROM iceberg.sefaz_niteroi_bronze.carlote cl
+    FROM iceberg.sefaz_brz.brz_carlote cl
     WHERE COALESCE(cl.__op, '') <> 'DELETE'
   )
   WHERE __rn = 1
@@ -97,7 +97,7 @@ carvalor_latest_per_caract AS (
     SELECT
       cv.*,
       ROW_NUMBER() OVER (PARTITION BY j71_caract ORDER BY j71_anousu DESC NULLS LAST, __ts_ms DESC) AS __rn
-    FROM iceberg.sefaz_niteroi_bronze.carvalor cv
+    FROM iceberg.sefaz_brz.brz_carvalor cv
     WHERE COALESCE(cv.__op, '') <> 'DELETE'
   )
   WHERE __rn = 1
@@ -107,7 +107,7 @@ iptucalv_2025 AS (
     j21_matric,
     j21_anousu,
     SUM(j21_valor) AS valor_iptu
-  FROM iceberg.sefaz_niteroi_bronze.iptucalv
+  FROM iceberg.sefaz_brz.brz_iptucalv
   WHERE COALESCE(__op, '') <> 'DELETE'
     AND j21_anousu = 2025
     AND j21_codhis = 1

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <template encoding-version="1.3">
-    <description>Lê de tópicos Kafka (CDC), transforma / valida minimamente e grava em tabelas Bronze no Iceberg (HDFS)</description>
+    <description>v1: Lê de tópicos Kafka (CDC), transforma / valida minimamente e grava em tabelas Bronze no Iceberg (HDFS)</description>
     <groupId>7c84501d-d10c-407c-b9f3-1d80e38fe36a</groupId>
     <name>bronze_kafka_to_iceberg_ingest_v1</name>
     <snippet>

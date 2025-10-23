@@ -4,16 +4,16 @@ silver_lotes.py
 Python 3.9+
 Descrição: Script pyspark para para carregar dados limpos e normalizados na tabela Silver do Iceberg
 Pré-requisito: 
-    - tabela Iceberg bronze e silver já criadas
+    - tabela Iceberg bronze (limite_de_bairros e lotes_arcgis) e silver (limite_de_bairros) já criadas
     - lotes.json inserido no HDFS com permissões adequadas
     - execução via venv com pyspark instalado
         python3 -m venv venv
         source venv/bin/activate
-Entrada: iceberg.sefaz_brz.brz_lotes_arcgis - tabela de lotes no iceberg bronze
+Entrada: iceberg.sefaz_brz.brz_lotes_arcgis + iceberg.sefaz_slv.slv_limite_de_bairros
 Saída: iceberg.sefaz_slv.slv_lotes_enriquecido - insert dos dados limpos e com flags na camada silver do iceberg
 
 Comando:
-    spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2 job_geo_load_lotes_silver.py
+    spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.2,org.apache.sedona:sedona-spark-shaded-3.0_2.12:1.5.1,org.datasyslab:geotools-wrapper:1.5.1-28.2 job_geo_load_lotes_silver.py
 
 Dependências:
     pip install apache-sedona==1.5.1
@@ -171,7 +171,7 @@ def process_lotes_bronze_to_silver(spark):
     )
 
     # 6. Ler limites de bairros (52 registros)
-    df_bairros = spark.table("iceberg.sefaz_slv.limite_de_bairros")
+    df_bairros = spark.table("iceberg.sefaz_slv.slv_limite_de_bairros")
     df_bairros = df_bairros.withColumn(
         "geom_border",
         expr("ST_GeomFromWKT(border)")
