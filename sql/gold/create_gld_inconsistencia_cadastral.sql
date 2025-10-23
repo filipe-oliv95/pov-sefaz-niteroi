@@ -24,7 +24,7 @@ LEFT JOIN (
         tx_insct,
         -- Pega um único bairro_geo por tx_insct (evita duplicação)
         MAX(bairro_geo) AS bairro_geo  -- ou MIN, ou qualquer valor representativo
-    FROM sefaz_slv.lotes
+    FROM sefaz_slv.slv_lotes_enriquecido
     GROUP BY tx_insct
 ) l ON ci.tx_insct = l.tx_insct;
 
