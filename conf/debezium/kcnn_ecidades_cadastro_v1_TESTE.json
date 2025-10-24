@@ -1,5 +1,5 @@
 curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json" -d '{
-  "name": "kcnn_ecidades_cadastro_v3",
+  "name": "kcnn_ecidades_cadastro_teste_v2",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
@@ -8,11 +8,11 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
     "database.user": "ecidades",
     "database.password": "ecidades123",
     "database.dbname": "ecidades",
-    "database.server.name": "ecidades-cadastro-v3", 
+    "database.server.name": "ecidades-cadastro-teste_v2", 
 
     "table.include.list": "cadastro.iptubase",
 
-    "slot.name": "slot_ecidades_cadastro_v3",
+    "slot.name": "slot_ecidades_cadastro_teste_v2",
     "publication.autocreate.mode": "filtered",
 
     "topic.creation.enable": "true", 
@@ -22,7 +22,7 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
     "snapshot.mode": "initial",
     "snapshot.include.collection.list": "cadastro.iptubase",
 
-    "publication.name": "pub_ecidades_cadastro_v3",
+    "publication.name": "pub_ecidades_cadastro_teste_v2",
     "database.include.schema.changes": "false",
     "tombstones.on.delete": "false",
     "decimal.handling.mode": "double",

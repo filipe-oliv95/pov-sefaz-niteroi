@@ -1,5 +1,5 @@
 curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json" -d '{
-  "name": "kcnn_ecidades_cadastro_v2",
+  "name": "kcnn_ecidades_cadastro_v3",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
@@ -8,11 +8,11 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
     "database.user": "speedlayer",
     "database.password": "q77BKvgCy59f17OdC5aws",
     "database.dbname": "poc_ecidade_markway",
-    "database.server.name": "ecidades-cadastro-v2", 
+    "database.server.name": "ecidades-cadastro-v3", 
 
     "table.include.list": "cadastro.iptubase,cadastro.lote,cadastro.iptuender,cadastro.loteloc,cadastro.iptuconstr,cadastro.iptucalv,cadastro.carlote,cadastro.carvalor",
 
-    "slot.name": "slot_ecidades_cadastro_v2",
+    "slot.name": "slot_ecidades_cadastro_v3",
     "publication.autocreate.mode": "filtered",
     
     "topic.creation.enable": "true", 
@@ -22,14 +22,14 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
     "snapshot.mode": "initial",
     "snapshot.include.collection.list": "cadastro.iptubase,cadastro.lote,cadastro.iptuender,cadastro.loteloc,cadastro.iptuconstr,cadastro.iptucalv,cadastro.carlote,cadastro.carvalor",
 
-    "publication.name": "pub_ecidades_cadastro_v2",
+    "publication.name": "pub_ecidades_cadastro_v3",
     "database.include.schema.changes": "false",
     "tombstones.on.delete": "false",
     "decimal.handling.mode": "double",
     "time.precision.mode": "connect",
     "max.batch.size": "2048",
     "poll.interval.ms": "1000",
-    "topic.prefix": "ecidades_v2", 
+    "topic.prefix": "ecidades_v3", 
 
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": "false",
