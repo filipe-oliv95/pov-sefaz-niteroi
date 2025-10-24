@@ -1,35 +1,35 @@
 curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json" -d '{
-  "name": "kcnn_ecidades_cadastro_v2",
+  "name": "kcnn_ecidades_cadastro_teste_v2",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
-    "database.hostname": "20.197.179.168",
+    "database.hostname": "192.168.122.220",
     "database.port": "5432",
-    "database.user": "speedlayer",
-    "database.password": "q77BKvgCy59f17OdC5aws",
-    "database.dbname": "poc_ecidade_markway",
-    "database.server.name": "ecidades-cadastro-v2", 
+    "database.user": "ecidades",
+    "database.password": "ecidades123",
+    "database.dbname": "ecidades",
+    "database.server.name": "ecidades-cadastro-teste_v2", 
 
-    "table.include.list": "cadastro.iptubase,cadastro.lote,cadastro.iptuender,cadastro.loteloc,cadastro.iptuconstr,cadastro.iptucalv,cadastro.carlote,cadastro.carvalor",
+    "table.include.list": "cadastro.iptubase",
 
-    "slot.name": "slot_ecidades_cadastro_v2",
+    "slot.name": "slot_ecidades_cadastro_teste_v2",
     "publication.autocreate.mode": "filtered",
-    
+
     "topic.creation.enable": "true", 
     "topic.creation.default.replication.factor": "1",
     "topic.creation.default.partitions": "4",
 
     "snapshot.mode": "initial",
-    "snapshot.include.collection.list": "cadastro.iptubase,cadastro.lote,cadastro.iptuender,cadastro.loteloc,cadastro.iptuconstr,cadastro.iptucalv,cadastro.carlote,cadastro.carvalor",
+    "snapshot.include.collection.list": "cadastro.iptubase",
 
-    "publication.name": "pub_ecidades_cadastro_v2",
+    "publication.name": "pub_ecidades_cadastro_teste_v2",
     "database.include.schema.changes": "false",
     "tombstones.on.delete": "false",
     "decimal.handling.mode": "double",
     "time.precision.mode": "connect",
     "max.batch.size": "2048",
     "poll.interval.ms": "1000",
-    "topic.prefix": "ecidades_v2", 
+    "topic.prefix": "ecidades_teste_v2", 
 
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": "false",
