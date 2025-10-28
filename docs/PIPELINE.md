@@ -136,17 +136,17 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
   - Big number: receita potencial estimada
 - **Fonte**: `gld_potencial_correcao`
 - **Freshness**: ≤ 10s (badge no dashboard)
+- **Configuração dos gráficos**:  [`/docs/how_to/superset/d1_potencial_correcao.md`](/docs/how_to/superset/d1_potencial_correcao.md)
 
 > ![Dashboard Potencial Correção](/src/superset/d1_potencial_correcao.PNG)  
 
-### Dashboard 2: **Inconsistência Cadastral**
+### Dashboard 2: **Índice de Inconsistência Cadastral**
 - **Objetivo**: diagnosticar qualidade dos dados
 - **Conteúdo**:
   - % de lotes com dados incompletos
   - Lista de outliers (ex: área = 0, IPTU = 0, mas lote ativo)
   - Evolução da limpeza ao longo do tempo
 - **Fonte**: `gld_inconsistencia_cadastral`
+- **Configuração dos gráficos**: [`/docs/how_to/superset/d2_indice_inconsistencia_cadastral.md`](/docs/how_to/superset/d2_indice_inconsistencia_cadastral.md)
 
 > ![Dashboard Inconsistência Cadastral](/src/superset/d2_inconsistencia_cadastral.PNG)
-
----

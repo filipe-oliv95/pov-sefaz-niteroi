@@ -1,5 +1,5 @@
 curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json" -d '{
-  "name": "kcnn_ecidades_cadastro_teste_v2",
+  "name": "kcnn_ecidades_cadastro_teste_v3",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
@@ -8,11 +8,11 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
     "database.user": "ecidades",
     "database.password": "ecidades123",
     "database.dbname": "ecidades",
-    "database.server.name": "ecidades-cadastro-teste_v2", 
+    "database.server.name": "ecidades-cadastro-teste_v3", 
 
-    "table.include.list": "cadastro.iptubase",
+    "table.include.list": "cadastro.lote",
 
-    "slot.name": "slot_ecidades_cadastro_teste_v2",
+    "slot.name": "slot_ecidades_cadastro_teste_v3",
     "publication.autocreate.mode": "filtered",
 
     "topic.creation.enable": "true", 
@@ -20,16 +20,16 @@ curl -X POST http://localhost:8087/connectors -H "Content-Type: application/json
     "topic.creation.default.partitions": "4",
 
     "snapshot.mode": "initial",
-    "snapshot.include.collection.list": "cadastro.iptubase",
+    "snapshot.include.collection.list": "cadastro.lote",
 
-    "publication.name": "pub_ecidades_cadastro_teste_v2",
+    "publication.name": "pub_ecidades_cadastro_teste_v3",
     "database.include.schema.changes": "false",
     "tombstones.on.delete": "false",
     "decimal.handling.mode": "double",
     "time.precision.mode": "connect",
     "max.batch.size": "2048",
     "poll.interval.ms": "1000",
-    "topic.prefix": "ecidades_teste_v2", 
+    "topic.prefix": "ecidades_teste_v3", 
 
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": "false",

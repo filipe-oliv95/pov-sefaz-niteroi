@@ -21,12 +21,10 @@ Para configurar a conexão do Trino no Superset, siga os passos abaixo:
 
 4. Inicie novamente o serviço do Superset.
 
-5. Adicione a conexão com o Trino seguindo a estrutura: trino://trino@localhost:8060/iceberg/default
-
-    Se o Trino estiver configurado com autenticação via usuário e senha, a conexão deve incluir a senha na URL:   
+5. Adicione a conexão com o Trino seguindo a estrutura: trino://trino:senha@localhost:8060/iceberg/default  
 
     ```bash
-    trino://trino:senha@localhost:8060/iceberg/default
+    trino://trino@master-node.bv00rqbdsnuujdgy3kanxosw4e.nx.internal.cloudapp.net:8060/iceberg/
     ```
 
 
