@@ -35,7 +35,10 @@
 - **Tipo de gráfico**: Bar Chart  
 - **Fonte de dados**: `sefaz_gld.gld_potencial_correcao`  
 - **Nome do gráfico**: `d1_top_bairros_pot_correcao`  
-- **Dimensão**: `bairro_geo`  
+- **X-axis**: `bairro_geo`  
+- **X-axis sort by**: `SUM(bairro_geo)`
+- **X-axis sort ascending**: `false`
+- **Metrics**: `SUM(potencial_discrepancia)`
 - **Filtro**: `potencial_discrepancia >= 0`  
 - **Limite de linhas**: `10`
 
@@ -43,11 +46,34 @@
 - **Título do gráfico**: *vazio*  
 - **Eixo X**:
   - Título da margem: `15`
-  - Rotação dos rótulos: `45°`
 - **Eixo Y**:
-  - Título: `Top 10 Bairros em Potencial de Correção`
   - Margem do título: `50`
   - Posição do título: `TOP`
 - **Opções do gráfico**:
   - Ordenação das séries por: `total value`
+  - Rotação dos rótulos: `45°`
   - Exibir valor: `true`
+  - Exibir legenda: `false`
+
+## 5. 
+- **Tipo de gráfico**: Table
+- **Fonte de dados**: `sefaz_gld.gld_potencial_correcao`  
+- **Nome do gráfico**: `d1_ranking_candidatos_correcao_por_lote`  
+- **Dimensão**: 
+  - `tx_insct` como `Inscrição Técnica`
+  - `tx_matric` como `Matícula`
+  - `potencial_discrepancia` como `Potencial de Correção`
+  - `area_construida` como `Área Construída (m²)`
+  - `valor_iptu` como `Valor do IPTU (R$)`
+  - `fator_iptu_m2` como `IPTU/m²`
+- **Time Grain**: `Day`
+- **Sort by**: `SUM(potencial_discrepancia)`
+- **Server Pagination**: `true`
+- **Server Page Length**: 20
+- **Sort descending**: `true`
+
+**Personalizações**:
+- **Search Box**: `true`
+- **Cell Bars**: `true`
+- **Color +/-**: `true`
+
