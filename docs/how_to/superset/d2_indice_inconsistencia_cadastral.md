@@ -81,3 +81,6 @@
   - Linha de rótulo: `true`
   - Exibir total: `true`
   - Formato: `donut`
+
+
+5: table - CRIAR

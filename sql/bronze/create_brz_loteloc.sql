@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_loteloc (
     j06_quadraloc VARCHAR,
     j06_lote VARCHAR,
     __op VARCHAR,
-    __ts_ms BIGINT,
-    __ts_iso VARCHAR
+    __src_ts_ms BIGINT,
+    __latency_ms BIGINT,
+    __brz_ts_ms BIGINT,
+    __brz_ts_iso VARCHAR
 ) WITH (format = 'PARQUET');
