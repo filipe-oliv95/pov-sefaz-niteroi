@@ -55,7 +55,7 @@
   - Exibir valor: `true`
   - Exibir legenda: `false`
 
-## 5. 
+## 5. Ranking de Candidatos por Potencial de Correção
 - **Tipo de gráfico**: Table
 - **Fonte de dados**: `sefaz_gld.gld_potencial_correcao`  
 - **Nome do gráfico**: `d1_ranking_candidatos_correcao_por_lote`  
