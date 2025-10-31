@@ -62,6 +62,7 @@ Abaixo está o diagrama de fluxo de dados da PoV, mostrando a integração entre
   - Publica eventos em tópicos Kafka (ex: `ecidades.iptubase`)
 - **Ingestão no Lake**:  
   - Job NiFi: [`jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.xml`](/jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.xml)  
+  - Explicação completa do pipeline NiFi: [`docs/how_to/nifi/bronze_kafka_to_iceberg_ingest.md`](/docs/how_to/nifi/bronze_kafka_to_iceberg_ingest.md)  
   *(Imagem completa do fluxo salva em [`jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.PNG`](/jobs/nifi/bronze_kafka_to_iceberg_ingest_v1.PNG)*
   - Valida e persiste mensagens em 8 tabelas bronze no Iceberg:  
     `iceberg.sefaz_brz.brz_iptubase`, `brz_lote`, ..., `brz_iptucalv`
