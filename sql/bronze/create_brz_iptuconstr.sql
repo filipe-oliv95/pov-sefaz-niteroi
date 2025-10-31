@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS iceberg.sefaz_brz.brz_iptuconstr (
     j39_areajiraudeposito INTEGER,
     __op VARCHAR,
     __src_ts_ms BIGINT,
-    __latency_ms BIGINT,
+    __src_ts_iso VARCHAR,
     __brz_ts_ms BIGINT,
-    __brz_ts_iso VARCHAR
+    __brz_ts_iso VARCHAR,
+    __latency_ms BIGINT
 ) WITH (format = 'PARQUET');
